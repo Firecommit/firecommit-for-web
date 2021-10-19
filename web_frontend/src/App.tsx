@@ -1,24 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
 
+type Routing = {
+  path: string;
+  component: React.ReactNode;
+};
+
 function App() {
+  const paths: Array<Routing> = [
+    {
+      path: '/',
+      component: <h1>HOME</h1>,
+    },
+    {
+      path: '/login',
+      component: <h1>Login</h1>,
+    },
+    {
+      path: '/signup',
+      component: <h1>Sign Up</h1>,
+    },
+    {
+      path: '/create-map-server',
+      component: <h1>Create Map Server</h1>,
+    },
+  ];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Switch>
+          {paths.map((elm) => (
+            <Route path={elm.path} key={elm.path} exact>
+              {elm.component}
+            </Route>
+          ))}
+        </Switch>
+      </Router>
     </div>
   );
 }
