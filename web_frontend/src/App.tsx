@@ -7,15 +7,15 @@ type Routing = {
   component: React.ReactNode;
 };
 
-function App() {
+export const App = () => {
   const paths: Array<Routing> = [
     {
       path: '/',
       component: <h1>HOME</h1>,
     },
     {
-      path: '/login',
-      component: <h1>Login</h1>,
+      path: '/signin',
+      component: <h1>Sign In</h1>,
     },
     {
       path: '/signup',
@@ -40,6 +40,4 @@ function App() {
       </Router>
     </div>
   );
-}
-
-export default App;
+};
