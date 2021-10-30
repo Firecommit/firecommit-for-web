@@ -1,13 +1,13 @@
 import React from 'react';
+import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
+
 import {
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { grey } from '@mui/material/colors';
+  ProgressTypography,
+  DialogTitleTypography,
+  DialogContentExplain,
+  DialogContentTextField,
+  DialogActionsButton,
+} from '../DialogItems';
 
 export type OuterProps = {};
 
@@ -16,29 +16,19 @@ export type Props = OuterProps & {};
 export const MapServerNamingPresenter = () => (
   <>
     <DialogTitle>
-      <Typography
-        variant="subtitle2"
-        sx={{
-          marginBottom: 2,
-          color: grey[500],
-        }}
-      >
-        手順1/3
-      </Typography>
-      <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+      <ProgressTypography>手順1/3</ProgressTypography>
+      <DialogTitleTypography>
         社名または組織名を教えて下さい。
-      </Typography>
+      </DialogTitleTypography>
     </DialogTitle>
     <DialogContent>
-      <Typography variant="body2" sx={{ marginBottom: 2 }}>
+      <DialogContentExplain>
         これがあなたのFIRECOMMITマップサーバの名前になります。組織にとって分かりやすいものを選んでください。
-      </Typography>
-      <TextField placeholder="例: ABC 社、ABC 営業部" size="small" fullWidth />
+      </DialogContentExplain>
+      <DialogContentTextField placeholder="例: ABC 社、ABC 営業部" fullWidth />
     </DialogContent>
     <DialogActions>
-      <Button variant="contained" size="large" sx={{ minWidth: '152px' }}>
-        次へ
-      </Button>
+      <DialogActionsButton>次へ</DialogActionsButton>
     </DialogActions>
   </>
 );
