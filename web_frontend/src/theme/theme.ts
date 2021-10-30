@@ -16,4 +16,32 @@ export const theme = createTheme({
       contrastText: '#fff',
     },
   },
+  components: {
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          paddingTop: 40,
+          paddingLeft: 40,
+          paddingRight: 40,
+        },
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          paddingLeft: 40,
+          paddingRight: 40,
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          paddingLeft: 40,
+          paddingRight: 40,
+          paddingBottom: 40,
+        },
+      },
+    },
+  },
 });
