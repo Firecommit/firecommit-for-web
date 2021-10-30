@@ -1,22 +1,23 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.scss';
 import { HomeScreen } from './pages/Home';
 import { WorkspaceScreen } from './pages/Workspace';
 import { SignInScreen } from './pages/SignIn';
 import { SignUpScreen } from './pages/SignUp';
 import { CreateMapScreen } from './pages/CreateMapScreen';
+import { AuthProvider } from './component/AuthProvider';
+import { PrivateRoute, AuthRoute } from './component/PrivateRoute';
 
 export const App = () => (
-  <div className="App">
+  <AuthProvider>
     <Router>
       <Switch>
-        <Route exact path="/signin" component={SignInScreen} />
-        <Route exact path="/signup" component={SignUpScreen} />
+        <PrivateRoute exact path="/workspace" component={WorkspaceScreen} />
+        <PrivateRoute exact path="/createmap" component={CreateMapScreen} />
         <Route exact path="/" component={HomeScreen} />
-        <Route exact path="/workspace" component={WorkspaceScreen} />
-        <Route exact path="/createmap" component={CreateMapScreen} />
+        <AuthRoute exact path="/signin" component={SignInScreen} />
+        <AuthRoute exact path="/signup" component={SignUpScreen} />
       </Switch>
     </Router>
-  </div>
+  </AuthProvider>
 );
