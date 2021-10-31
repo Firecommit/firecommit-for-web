@@ -1,7 +1,8 @@
 import React from 'react';
 import { Box, Dialog } from '@mui/material';
 // import { MapServerNaming } from './MapServerNaming';
-import { UploadIcon } from './UploadIcon';
+// import { UploadIcon } from './UploadIcon';
+import { UploadBuildingDrawing } from './UploadBuildingDrawing';
 
 export type OuterProps = {};
 
@@ -17,7 +18,8 @@ export const CreateMapServerDialogPresenter = () => (
       }}
     >
       {/* <MapServerNaming /> */}
-      <UploadIcon />
+      {/* <UploadIcon /> */}
+      <UploadBuildingDrawing />
     </Box>
   </Dialog>
 );
