@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Dialog } from '@mui/material';
-import { MapServerNaming } from './MapServerNaming';
+// import { MapServerNaming } from './MapServerNaming';
+import { UploadIcon } from './UploadIcon';
 
 export type OuterProps = {};
 
@@ -15,7 +16,8 @@ export const CreateMapServerDialogPresenter = () => (
         height: '568px',
       }}
     >
-      <MapServerNaming />
+      {/* <MapServerNaming /> */}
+      <UploadIcon />
     </Box>
   </Dialog>
 );
