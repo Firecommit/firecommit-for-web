@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Box,
   Button,
   ButtonProps,
   TextField,
@@ -8,6 +9,8 @@ import {
   TypographyProps,
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
+// import { UploadFile as UploadFileIcon } from '@mui/icons-material';
+import { useDropzone } from 'react-dropzone';
 
 export const ProgressTypography = ({
   sx,
@@ -67,3 +70,60 @@ export const DialogActionsButton = ({
     {...props}
   />
 );
+
+export const DialogDropzone = ({
+  onDrop,
+  icon: iconProp,
+  isDragText,
+}: {
+  onDrop: (acceptedFiles: any) => void;
+  icon: React.ReactElement;
+  isDragText?: string;
+}) => {
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const icon = React.cloneElement(iconProp, {
+    sx: {
+      color: grey[500],
+      height: 'auto',
+      width: '7%',
+      padding: 2,
+      borderRadius: '50%',
+      border: 'dashed 1px ',
+    },
+  });
+
+  return (
+    <Box
+      {...getRootProps()}
+      sx={{
+        position: 'relative',
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: 'dashed 1px ',
+        cursor: isDragActive ? 'copy' : 'pointer',
+        backgroundColor: isDragActive ? 'black' : 'white',
+        opacity: isDragActive ? 0.3 : 1,
+      }}
+    >
+      <Typography
+        sx={{
+          position: 'absolute',
+          top: '20%',
+          display: isDragActive ? 'inline' : 'none',
+          color: 'white',
+        }}
+      >
+        {isDragText}
+      </Typography>
+      <input {...getInputProps()} />
+      {icon}
+    </Box>
+  );
+};
+
+DialogDropzone.defaultProps = {
+  isDragText: 'ここにドラッグアンドドロップ',
+};
