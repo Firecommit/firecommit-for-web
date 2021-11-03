@@ -9,11 +9,13 @@ import {
   DialogActionsButton,
 } from '../DialogItems';
 
-export type OuterProps = {};
+export type OuterProps = {
+  nextPage: () => void;
+};
 
 export type Props = OuterProps & {};
 
-export const MapServerNamingPresenter = () => (
+export const MapServerNamingPresenter = ({ nextPage }: Props) => (
   <>
     <DialogTitle>
       <ProgressTypography>手順1/3</ProgressTypography>
@@ -28,7 +30,7 @@ export const MapServerNamingPresenter = () => (
       <DialogContentTextField placeholder="例: ABC 社、ABC 営業部" fullWidth />
     </DialogContent>
     <DialogActions>
-      <DialogActionsButton>次へ</DialogActionsButton>
+      <DialogActionsButton onClick={nextPage}>次へ</DialogActionsButton>
     </DialogActions>
   </>
 );

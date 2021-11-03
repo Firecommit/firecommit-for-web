@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react';
-import { UploadIconPresenter } from './Presenter';
+import { UploadIconPresenter, OuterProps } from './Presenter';
 
-export const UploadIcon = () => {
+export type Props = OuterProps & {};
+
+export const UploadIcon = (props: Props) => {
   const onDrop = useCallback((acceptedFiles) => {
     console.log(acceptedFiles);
   }, []);
 
-  return <UploadIconPresenter onDrop={onDrop} />;
+  return <UploadIconPresenter onDrop={onDrop} {...props} />;
 };

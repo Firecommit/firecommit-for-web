@@ -9,11 +9,15 @@ import {
   ProgressTypography,
 } from '../DialogItems';
 
-type Props = {
+export type OuterProps = {
+  nextPage: () => void;
+};
+
+export type Props = OuterProps & {
   onDrop: (acceptedFiles: any) => void;
 };
 
-export const UploadIconPresenter = ({ onDrop }: Props) => (
+export const UploadIconPresenter = ({ onDrop, nextPage }: Props) => (
   <>
     <DialogTitle>
       <ProgressTypography>手順2/3</ProgressTypography>
@@ -33,10 +37,10 @@ export const UploadIconPresenter = ({ onDrop }: Props) => (
         justifyContent: 'space-between',
       }}
     >
-      <DialogActionsButton variant="text" color="inherit">
+      <DialogActionsButton variant="text" color="inherit" onClick={nextPage}>
         この手順をスキップする
       </DialogActionsButton>
-      <DialogActionsButton>次へ</DialogActionsButton>
+      <DialogActionsButton onClick={nextPage}>次へ</DialogActionsButton>
     </DialogActions>
   </>
 );

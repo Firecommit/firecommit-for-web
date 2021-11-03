@@ -1,4 +1,8 @@
 import React from 'react';
-import { MapServerNamingPresenter } from './Presenter';
+import { MapServerNamingPresenter, OuterProps } from './Presenter';
 
-export const MapServerNaming = () => <MapServerNamingPresenter />;
+type Props = OuterProps & {};
+
+export const MapServerNaming = (props: Props) => (
+  <MapServerNamingPresenter {...props} />
+);
