@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "workspace": {
+      "$wid": {
+        ".write": "root.child('workspace').child($wid).child('adminUser').val() === auth.uid",
+        ".read": true
+      }
+    }
+  }
+}
