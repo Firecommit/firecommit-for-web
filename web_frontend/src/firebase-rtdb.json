@@ -1,0 +1,27 @@
+{
+  "users": {
+    "maturu": {
+      "name": "Mairu Matsuyama",
+      "coordinate": {
+        "lattitude": 0,
+        "longtitude": 0
+      },
+      "workspace": {
+        "yamaba": true
+      }
+    }
+  },
+  "workspace": {
+    "yamaba": {
+      "name": "Yamaba Dentist",
+      "icon": "https://...",
+      "maps": {
+        "layer1": "https://...",
+        "layer2": "https://..."
+      },
+      "members": {
+        "maturu": true
+      }
+    }
+  }
+}
