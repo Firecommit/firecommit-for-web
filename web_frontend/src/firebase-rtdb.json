@@ -1,7 +1,6 @@
 {
   "users": {
-    "maturu": {
-      "name": "Mairu Matsuyama",
+    "F8gV4y05BVPnhyQm5KEnTJ43fFj2": {
       "coordinate": {
         "lattitude": 0,
         "longtitude": 0
@@ -14,13 +13,14 @@
   "workspace": {
     "yamaba": {
       "name": "Yamaba Dentist",
-      "icon": "https://...",
+      "iconURL": "https://...",
       "maps": {
         "layer1": "https://...",
         "layer2": "https://..."
       },
+      "adminUser": "F8gV4y05BVPnhyQm5KEnTJ43fFj2",
       "members": {
-        "maturu": true
+        "F8gV4y05BVPnhyQm5KEnTJ43fFj2": true
       }
     }
   }

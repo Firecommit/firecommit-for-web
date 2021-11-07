@@ -11,31 +11,30 @@ import { withRouter } from 'react-router-dom';
 import { auth, db } from '../firebase';
 
 export const SignUpScreen = withRouter((props) => {
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const createUser = () => {
-    if (username) {
+    if (name) {
       auth
         .createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
           const { user } = userCredential;
           user?.updateProfile({
-            displayName: username,
+            displayName: name,
           });
-          db.ref('users')
-            .push({
-              uid: user?.uid,
-              name: username,
-              lattitude: 0,
-              longtitude: 0,
-              timestamp: new Date().getTime(),
+          db.ref(`users/${user?.uid}`)
+            .set({
+              coordinate: {
+                lattitude: 0,
+                longtitude: 0,
+              },
             })
             .catch((error) => {
               alert(error);
             });
-          props.history.push('/signin');
+          props.history.push('/workspace');
         })
         .catch((error) => {
           alert(error);
@@ -63,12 +62,12 @@ export const SignUpScreen = withRouter((props) => {
               fullWidth
               autoComplete="off"
               margin="normal"
-              id="username"
-              label="ユーザー名"
+              id="name"
+              label="氏名"
               type="text"
               variant="filled"
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
+              value={name}
+              onChange={(event) => setName(event.target.value)}
             />
             <TextField
               required
@@ -98,7 +97,7 @@ export const SignUpScreen = withRouter((props) => {
               fullWidth
               type="button"
               variant="contained"
-              disabled={!username || !email || !password}
+              disabled={!name || !email || !password}
               onClick={createUser}
             >
               アカウント作成
