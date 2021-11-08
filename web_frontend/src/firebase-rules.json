@@ -2,13 +2,14 @@
   "rules": {
     "users": {
       "$uid": {
-        ".write": "$uid === auth.uid"
+        ".write": "$uid === auth.uid",
+        ".read": true
       }
     },
     "workspace": {
       "$wid": {
         ".write": "root.child('workspace').child($wid).child('adminUser').val() === auth.uid",
-        ".read": true
+        ".read": "root.child('workspace').child($wid).child('members'+auth.uid).exists()"
       }
     }
   }

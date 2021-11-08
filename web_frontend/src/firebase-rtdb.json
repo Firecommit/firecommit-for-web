@@ -2,8 +2,8 @@
   "users": {
     "F8gV4y05BVPnhyQm5KEnTJ43fFj2": {
       "coordinate": {
-        "lattitude": 0,
-        "longtitude": 0
+        "x": 0,
+        "y": 0
       },
       "workspace": {
         "yamaba": true
