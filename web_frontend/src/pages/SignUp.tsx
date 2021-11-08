@@ -6,14 +6,26 @@ import {
   Button,
   Link,
   Typography,
+  Collapse,
+  Alert,
+  AlertTitle,
 } from '@mui/material';
 import { withRouter } from 'react-router-dom';
 import { auth, db } from '../firebase';
+import { hasProperty } from '../utils';
+import Locales from '../locales';
+
+type ErrorType = { code: string; msg: string } | null | undefined;
+type BlacketType = {
+  [key: string]: string;
+};
 
 export const SignUpScreen = withRouter((props) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<ErrorType>();
+  const signupLocale: BlacketType = Locales.ja.attributes.error.method.signup;
 
   const createUser = () => {
     if (name) {
@@ -27,20 +39,28 @@ export const SignUpScreen = withRouter((props) => {
           db.ref(`users/${user?.uid}`)
             .set({
               coordinate: {
-                lattitude: 0,
-                longtitude: 0,
+                x: 0,
+                y: 0,
               },
             })
-            .catch((error) => {
-              alert(error);
+            .catch((e) => {
+              alert(e);
             });
           props.history.push('/workspace');
         })
-        .catch((error) => {
-          alert(error);
+        .catch((e) => {
+          setError({
+            code: e.code,
+            msg: hasProperty(signupLocale, e.code)
+              ? signupLocale[e.code]
+              : e.message.split(' ').slice(1, -1).join(' '),
+          });
         });
     } else {
-      alert('require username');
+      setError({
+        code: 'auth/empty-name',
+        msg: signupLocale['auth/empty-name'],
+      });
     }
   };
 
@@ -56,6 +76,12 @@ export const SignUpScreen = withRouter((props) => {
           noValidate
           autoComplete="off"
         >
+          <Collapse in={Boolean(error)}>
+            <Alert severity="error" sx={{ textAlign: 'left' }}>
+              <AlertTitle>Error: {error?.code}</AlertTitle>
+              {error?.msg}
+            </Alert>
+          </Collapse>
           <div>
             <TextField
               required

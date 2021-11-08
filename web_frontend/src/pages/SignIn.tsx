@@ -8,14 +8,26 @@ import {
   Typography,
   Checkbox,
   FormControlLabel,
+  Collapse,
+  Alert,
+  AlertTitle,
 } from '@mui/material';
 import { withRouter } from 'react-router-dom';
 import firebase, { auth } from '../firebase';
+import Locales from '../locales';
+import { hasProperty } from '../utils';
+
+type ErrorType = { code: string; msg: string } | null | undefined;
+type BlacketType = {
+  [key: string]: string;
+};
 
 export const SignInScreen = withRouter((props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [checked, setChecked] = useState(true);
+  const [error, setError] = useState<ErrorType>();
+  const signinLocale: BlacketType = Locales.ja.attributes.error.method.signin;
 
   const SignIn = () => {
     if (checked) {
@@ -27,12 +39,22 @@ export const SignInScreen = withRouter((props) => {
             .then(() => {
               props.history.push('/workspace');
             })
-            .catch((error) => {
-              alert(error);
+            .catch((e) => {
+              setError({
+                code: e.code,
+                msg: hasProperty(signinLocale, e.code)
+                  ? signinLocale[e.code]
+                  : e.message.split(' ').slice(1, -1).join(' '),
+              });
             })
         )
-        .catch((error) => {
-          alert(error);
+        .catch((e) => {
+          setError({
+            code: e.code,
+            msg: hasProperty(signinLocale, e.code)
+              ? signinLocale[e.code]
+              : e.message.split(' ').slice(1, -1).join(' '),
+          });
         });
     } else {
       auth
@@ -40,8 +62,13 @@ export const SignInScreen = withRouter((props) => {
         .then(() => {
           props.history.push('/workspace');
         })
-        .catch((error) => {
-          alert(error);
+        .catch((e) => {
+          setError({
+            code: e.code,
+            msg: hasProperty(signinLocale, e.code)
+              ? signinLocale[e.code]
+              : e.message.split(' ').slice(1, -1).join(' '),
+          });
         });
     }
   };
@@ -58,6 +85,12 @@ export const SignInScreen = withRouter((props) => {
           noValidate
           autoComplete="off"
         >
+          <Collapse in={Boolean(error)}>
+            <Alert severity="error" sx={{ textAlign: 'left' }}>
+              <AlertTitle>Error: {error?.code}</AlertTitle>
+              {error?.msg}
+            </Alert>
+          </Collapse>
           <div>
             <TextField
               required
