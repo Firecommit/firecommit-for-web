@@ -1,4 +1,4 @@
 import React from 'react';
-import { CreateMapServerDialog } from '../../components/CreateMapServerDialog';
+import { CreateMapServerDialog } from '../../component/CreateMapServerDialog';
 
 export const CreateMapPresenter = () => <CreateMapServerDialog />;
