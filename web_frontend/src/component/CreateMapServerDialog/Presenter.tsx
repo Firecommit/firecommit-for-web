@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { Box, Dialog } from '@mui/material';
 import { MapServerNaming } from './MapServerNaming';
 import { UploadIcon } from './UploadIcon';
@@ -10,13 +10,25 @@ export type OuterProps = {
 
 export type Props = OuterProps & {
   nextPage: () => void;
+  handleChangeOrgName: (e: ChangeEvent<HTMLInputElement>) => void;
+  setIcon: (file: File) => void;
+  setBuildingDrawing: (files: Array<File>) => void;
 };
 
-export const CreateMapServerDialogPresenter = ({ page, nextPage }: Props) => {
+export const CreateMapServerDialogPresenter = ({
+  page,
+  nextPage,
+  handleChangeOrgName,
+  setIcon,
+  setBuildingDrawing,
+}: Props) => {
   const flow = [
-    <MapServerNaming nextPage={nextPage} />,
-    <UploadIcon nextPage={nextPage} />,
-    <UploadBuildingDrawing />,
+    <MapServerNaming
+      nextPage={nextPage}
+      handleChangeOrgName={handleChangeOrgName}
+    />,
+    <UploadIcon nextPage={nextPage} setIcon={setIcon} />,
+    <UploadBuildingDrawing setBuildingDrawing={setBuildingDrawing} />,
   ];
 
   return (
