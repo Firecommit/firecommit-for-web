@@ -1,6 +1,6 @@
 import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material';
 import React, { useContext } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { AuthContext } from '../../component/AuthProvider';
 import { auth } from '../../firebase';
 import ShareIcon from './share-icon.svg';
@@ -32,7 +32,13 @@ export const WorkspaceScreen = withRouter((props) => {
                 ともに働く人々の業務効率化を目的とした屋内マップができます。
                 新しくマップサーバーを作成するには、下のボタンをクリックしてください。
               </Typography>
-              <Button variant="contained" color="primary" sx={{ mb: 3 }}>
+              <Button
+                component={Link}
+                to="/createmap"
+                variant="contained"
+                color="primary"
+                sx={{ mb: 3 }}
+              >
                 マップサーバーを作成する
               </Button>
               <Typography variant="body2" color="#777">
