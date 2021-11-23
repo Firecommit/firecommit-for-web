@@ -73,14 +73,19 @@ export const DialogActionsButton = ({
 
 export const DialogDropzone = ({
   onDrop,
+  maxFiles,
   icon: iconProp,
   isDragText,
 }: {
   onDrop: (acceptedFiles: any) => void;
+  maxFiles?: number;
   icon: React.ReactElement;
   isDragText?: string;
 }) => {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    maxFiles,
+  });
   const icon = React.cloneElement(iconProp, {
     sx: {
       color: grey[500],
@@ -126,4 +131,5 @@ export const DialogDropzone = ({
 
 DialogDropzone.defaultProps = {
   isDragText: 'ここにドラッグアンドドロップ',
+  maxFiles: 0,
 };
