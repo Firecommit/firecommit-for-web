@@ -1,8 +1,10 @@
 import React, { ChangeEvent, useState, useContext } from 'react';
+import { ref, set } from 'firebase/database';
+import { nanoid } from 'nanoid';
 import { CreateMapServerDialogPresenter, OuterProps } from './Presenter';
 import { AuthContext } from '../AuthProvider';
 import { MapServer } from '../../types/MapServer';
-import { storageRef } from '../../firebase';
+import { db, storageRef } from '../../firebase';
 
 export type Props = OuterProps & {};
 
@@ -18,21 +20,20 @@ export const CreateMapServerDialog = () => {
   const [icon, setIcon] = useState<File>();
   const [buildingDrawing, setBuildingDrawing] = useState<Array<File>>();
 
-  const uploadIcon = async (iconFile: File): Promise<string> => {
-    const iconRef = storageRef.child(`/icons/${orgName}.png`);
+  const uploadIcon = async (iconFile: File, id: string): Promise<string> => {
+    const iconRef = storageRef.child(`/icons/${id}.png`);
     await iconRef.put(iconFile);
     const iconURL = await iconRef.getDownloadURL();
     return iconURL;
   };
 
   const uploadBuildingDrawing = async (
-    buildingDrawingList: Array<File>
+    buildingDrawingList: Array<File>,
+    id: string
   ): Promise<MapServer['maps']> => {
     const maps: MapServer['maps'] = {} as MapServer['maps'];
     buildingDrawingList.forEach(async (file, index) => {
-      const imageRef = storageRef.child(
-        `/maps/${orgName}/layoer${index + 1}.png`
-      );
+      const imageRef = storageRef.child(`/maps/${id}/layoer${index + 1}.png`);
 
       await imageRef.put(file);
       const imageURL = await imageRef.getDownloadURL();
@@ -46,6 +47,7 @@ export const CreateMapServerDialog = () => {
     if (!currentUser) return;
 
     const mapServer: MapServer = {
+      id: nanoid(),
       name: orgName,
       adminUserId: currentUser?.uid,
       members: {},
@@ -53,11 +55,15 @@ export const CreateMapServerDialog = () => {
     mapServer.members[currentUser.uid] = true;
 
     try {
-      if (icon) mapServer.iconURL = await uploadIcon(icon);
+      if (icon) mapServer.iconURL = await uploadIcon(icon, mapServer.id);
       if (buildingDrawing)
-        mapServer.maps = await uploadBuildingDrawing(buildingDrawing);
+        mapServer.maps = await uploadBuildingDrawing(
+          buildingDrawing,
+          mapServer.id
+        );
+      const { id, ...data } = mapServer;
 
-      console.log(mapServer);
+      set(ref(db, `workspace/${id}`), data);
     } catch (error) {
       console.error(error);
     }
