@@ -15,9 +15,12 @@ export type Props = {
 };
 
 export const UploadIcon = ({ nextPage, setIcon }: Props) => {
-  const onDrop = useCallback((acceptedFiles) => {
-    setIcon(acceptedFiles[0]);
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      setIcon(acceptedFiles[0]);
+    },
+    [setIcon]
+  );
 
   return (
     <>

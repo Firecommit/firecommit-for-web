@@ -11,12 +11,19 @@ import {
 
 export type Props = {
   setBuildingDrawing: (files: Array<File>) => void;
+  handleClickComplete: () => void;
 };
 
-export const UploadBuildingDrawing = ({ setBuildingDrawing }: Props) => {
-  const onDrop = useCallback((acceptedFiles) => {
-    setBuildingDrawing(acceptedFiles);
-  }, []);
+export const UploadBuildingDrawing = ({
+  setBuildingDrawing,
+  handleClickComplete,
+}: Props) => {
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      setBuildingDrawing(acceptedFiles);
+    },
+    [setBuildingDrawing]
+  );
 
   return (
     <>
@@ -33,7 +40,9 @@ export const UploadBuildingDrawing = ({ setBuildingDrawing }: Props) => {
         <DialogDropzone onDrop={onDrop} icon={<UploadFileIcon />} />
       </DialogContent>
       <DialogActions>
-        <DialogActionsButton>完了</DialogActionsButton>
+        <DialogActionsButton onClick={handleClickComplete}>
+          完了
+        </DialogActionsButton>
       </DialogActions>
     </>
   );
