@@ -16,7 +16,7 @@ export type ImagePreviewListProps = {
 export const ImagePreviewList = ({ imageList }: ImagePreviewListProps) => (
   <List>
     {imageList.map(({ label, imageUrl, onDelete }) => (
-      <ListItem sx={{ justifyContent: 'center' }}>
+      <ListItem key={imageUrl} sx={{ justifyContent: 'center' }}>
         <Typography>{label}</Typography>
         <Box sx={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
           <ImagePreview imageUrl={imageUrl} />
