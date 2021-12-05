@@ -8,13 +8,15 @@ import {
   DialogTitleTypography,
   ProgressTypography,
 } from '../DialogItems';
+import { ImagePreviewList } from '../../ImagePreviewList';
 
 export type Props = {
   nextPage: () => void;
-  setIcon: (file: File) => void;
+  icon?: File;
+  setIcon: (file: File | undefined) => void;
 };
 
-export const UploadIcon = ({ nextPage, setIcon }: Props) => {
+export const UploadIcon = ({ nextPage, icon, setIcon }: Props) => {
   const onDrop = useCallback(
     (acceptedFiles) => {
       setIcon(acceptedFiles[0]);
@@ -34,6 +36,17 @@ export const UploadIcon = ({ nextPage, setIcon }: Props) => {
         <DialogContentExplain>
           アイコンを登録することでマップサーバーの役割、コンセプト、組織について直感的に理解しやすくなります。
         </DialogContentExplain>
+        {icon && (
+          <ImagePreviewList
+            imageList={[
+              {
+                imageUrl: window.URL.createObjectURL(icon),
+                label: 'アイコン',
+                onDelete: () => setIcon(undefined),
+              },
+            ]}
+          />
+        )}
         <DialogDropzone
           onDrop={onDrop}
           maxFiles={1}

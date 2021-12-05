@@ -12,7 +12,8 @@ export type Props = OuterProps & {
   nextPage: () => void;
   orgName: string;
   handleChangeOrgName: (e: ChangeEvent<HTMLInputElement>) => void;
-  setIcon: (file: File) => void;
+  icon?: File;
+  setIcon: (file: File | undefined) => void;
   buildingDrawing: Array<File>;
   setBuildingDrawing: (files: Array<File>) => void;
   handleClickCreateMapServer: () => void;
@@ -23,6 +24,7 @@ export const CreateMapServerDialogPresenter = ({
   orgName,
   nextPage,
   handleChangeOrgName,
+  icon,
   setIcon,
   buildingDrawing,
   setBuildingDrawing,
@@ -34,7 +36,7 @@ export const CreateMapServerDialogPresenter = ({
       orgName={orgName}
       handleChangeOrgName={handleChangeOrgName}
     />,
-    <UploadIcon nextPage={nextPage} setIcon={setIcon} />,
+    <UploadIcon nextPage={nextPage} icon={icon} setIcon={setIcon} />,
     <UploadBuildingDrawing
       buildingDrawing={buildingDrawing}
       setBuildingDrawing={setBuildingDrawing}
