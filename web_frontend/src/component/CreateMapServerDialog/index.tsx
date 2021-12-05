@@ -18,7 +18,7 @@ export const CreateMapServerDialog = () => {
   const handleChangeOrgName = (e: ChangeEvent<HTMLInputElement>) =>
     setOrgName(e.target.value);
   const [icon, setIcon] = useState<File>();
-  const [buildingDrawing, setBuildingDrawing] = useState<Array<File>>();
+  const [buildingDrawing, setBuildingDrawing] = useState<Array<File>>([]);
 
   const uploadIcon = async (iconFile: File, id: string): Promise<string> => {
     const iconRef = storageRef.child(`/icons/${id}.png`);
@@ -75,6 +75,7 @@ export const CreateMapServerDialog = () => {
       nextPage={nextPage}
       handleChangeOrgName={handleChangeOrgName}
       setIcon={setIcon}
+      buildingDrawing={buildingDrawing}
       setBuildingDrawing={setBuildingDrawing}
       handleClickCreateMapServer={handleClickCreateMapServer}
     />
