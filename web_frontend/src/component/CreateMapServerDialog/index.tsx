@@ -73,6 +73,7 @@ export const CreateMapServerDialog = () => {
     <CreateMapServerDialogPresenter
       page={page}
       nextPage={nextPage}
+      orgName={orgName}
       handleChangeOrgName={handleChangeOrgName}
       setIcon={setIcon}
       buildingDrawing={buildingDrawing}

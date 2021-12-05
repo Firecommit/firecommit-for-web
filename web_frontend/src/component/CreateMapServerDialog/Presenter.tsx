@@ -10,6 +10,7 @@ export type OuterProps = {
 
 export type Props = OuterProps & {
   nextPage: () => void;
+  orgName: string;
   handleChangeOrgName: (e: ChangeEvent<HTMLInputElement>) => void;
   setIcon: (file: File) => void;
   buildingDrawing: Array<File>;
@@ -19,6 +20,7 @@ export type Props = OuterProps & {
 
 export const CreateMapServerDialogPresenter = ({
   page,
+  orgName,
   nextPage,
   handleChangeOrgName,
   setIcon,
@@ -29,6 +31,7 @@ export const CreateMapServerDialogPresenter = ({
   const flow = [
     <MapServerNaming
       nextPage={nextPage}
+      orgName={orgName}
       handleChangeOrgName={handleChangeOrgName}
     />,
     <UploadIcon nextPage={nextPage} setIcon={setIcon} />,
