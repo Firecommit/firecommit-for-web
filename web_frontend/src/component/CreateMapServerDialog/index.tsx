@@ -11,6 +11,8 @@ export type Props = OuterProps & {};
 
 export const CreateMapServerDialog = () => {
   const notificationDispatch = useContext(NotificationDispatchContext);
+  const setSuccess = (message?: string) =>
+    notificationDispatch({ type: 'SET_SUCCESS', message });
   const setError = (message?: string) =>
     notificationDispatch({ type: 'SET_ERROR', message });
 
@@ -72,6 +74,7 @@ export const CreateMapServerDialog = () => {
       const { id, ...data } = mapServer;
 
       set(ref(db, `workspace/${id}`), data);
+      setSuccess('登録に成功しました。');
     } catch (error: any) {
       const serverResponse = JSON.parse(error.customData.serverResponse);
       setError(`登録に失敗しました。: ${serverResponse.error.message}`);
