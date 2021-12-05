@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Dialog, DialogContent } from '@mui/material';
 
 export type ImageDialogProps = {
   open: boolean;
@@ -9,10 +9,11 @@ export type ImageDialogProps = {
 export const ImageDialog = ({ open, imageUrl, onClose }: ImageDialogProps) => (
   <Dialog
     open={open}
+    maxWidth="xl"
+    fullWidth
     onClose={onClose}
     sx={{ '& .MuiDialog-paper': { backgroundColor: 'transparent' } }}
   >
-    <DialogTitle sx={{ display: 'flex', justifyContent: 'flex-end' }} />
     <DialogContent
       sx={{
         display: 'flex',
