@@ -5,10 +5,15 @@ import { CreateMapServerDialogPresenter, OuterProps } from './Presenter';
 import { AuthContext } from '../AuthProvider';
 import { MapServer } from '../../types/MapServer';
 import { db, storageRef } from '../../firebase';
+import { NotificationDispatchContext } from '../NotificationProvider';
 
 export type Props = OuterProps & {};
 
 export const CreateMapServerDialog = () => {
+  const notificationDispatch = useContext(NotificationDispatchContext);
+  const setError = (message?: string) =>
+    notificationDispatch({ type: 'SET_ERROR', message });
+
   const [page, setPage] = useState(1);
   const nextPage = () => setPage(page + 1);
 
@@ -32,13 +37,15 @@ export const CreateMapServerDialog = () => {
     id: string
   ): Promise<MapServer['maps']> => {
     const maps: MapServer['maps'] = {} as MapServer['maps'];
-    buildingDrawingList.forEach(async (file, index) => {
-      const imageRef = storageRef.child(`/maps/${id}/layoer${index + 1}.png`);
+    const puts = buildingDrawingList.map(async (file, index) => {
+      const imageRef = storageRef.child(`/maps/${id}/layer${index + 1}.png`);
 
       await imageRef.put(file);
       const imageURL = await imageRef.getDownloadURL();
       maps[`layer${index + 1}`] = imageURL;
     });
+
+    await Promise.all([puts[0]]);
 
     return maps;
   };
@@ -64,8 +71,9 @@ export const CreateMapServerDialog = () => {
       const { id, ...data } = mapServer;
 
       set(ref(db, `workspace/${id}`), data);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      const serverResponse = JSON.parse(error.customData.serverResponse);
+      setError(`登録に失敗しました。: ${serverResponse.error.message}`);
     }
   };
 
