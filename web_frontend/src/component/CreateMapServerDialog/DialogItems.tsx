@@ -9,7 +9,6 @@ import {
   TypographyProps,
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
-// import { UploadFile as UploadFileIcon } from '@mui/icons-material';
 import { useDropzone } from 'react-dropzone';
 
 export const ProgressTypography = ({
@@ -76,11 +75,13 @@ export const DialogDropzone = ({
   maxFiles,
   icon: iconProp,
   isDragText,
+  dropzoneText,
 }: {
   onDrop: (acceptedFiles: any) => void;
   maxFiles?: number;
   icon: React.ReactElement;
   isDragText?: string;
+  dropzoneText?: string;
 }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -124,6 +125,7 @@ export const DialogDropzone = ({
         {isDragText}
       </Typography>
       <input {...getInputProps()} />
+      {dropzoneText}
       {icon}
     </Box>
   );
@@ -131,5 +133,6 @@ export const DialogDropzone = ({
 
 DialogDropzone.defaultProps = {
   isDragText: 'ここにドラッグアンドドロップ',
+  dropzoneText: '',
   maxFiles: 0,
 };
