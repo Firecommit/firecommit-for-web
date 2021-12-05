@@ -50,6 +50,7 @@ export const MapServerNaming = ({
           fullWidth
           error={!nameValid.valid}
           helperText={nameValid.message}
+          value={orgName}
           onChange={handleChangeOrgName}
         />
       </DialogContent>

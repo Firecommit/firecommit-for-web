@@ -11,12 +11,14 @@ import {
 import { ImagePreviewList } from '../../ImagePreviewList';
 
 export type Props = {
+  prevPage: () => void;
   buildingDrawing: Array<File>;
   setBuildingDrawing: (files: Array<File>) => void;
   handleClickComplete: () => void;
 };
 
 export const UploadBuildingDrawing = ({
+  prevPage,
   buildingDrawing,
   setBuildingDrawing,
   handleClickComplete,
@@ -55,6 +57,9 @@ export const UploadBuildingDrawing = ({
         <ImagePreviewList imageList={imageList} />
       </DialogContent>
       <DialogActions>
+        <DialogActionsButton color="inherit" onClick={prevPage}>
+          戻る
+        </DialogActionsButton>
         <DialogActionsButton onClick={handleClickComplete}>
           完了
         </DialogActionsButton>

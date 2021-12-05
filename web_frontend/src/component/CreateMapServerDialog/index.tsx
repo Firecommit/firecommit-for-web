@@ -16,6 +16,7 @@ export const CreateMapServerDialog = () => {
 
   const [page, setPage] = useState(1);
   const nextPage = () => setPage(page + 1);
+  const prevPage = () => setPage(page - 1);
 
   const { currentUser } = useContext(AuthContext);
 
@@ -81,6 +82,7 @@ export const CreateMapServerDialog = () => {
     <CreateMapServerDialogPresenter
       page={page}
       nextPage={nextPage}
+      prevPage={prevPage}
       orgName={orgName}
       handleChangeOrgName={handleChangeOrgName}
       icon={icon}

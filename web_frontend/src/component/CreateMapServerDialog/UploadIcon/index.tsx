@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import {
+  Box,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -19,11 +20,12 @@ import { Valid, iconValidator } from './validator';
 
 export type Props = {
   nextPage: () => void;
+  prevPage: () => void;
   icon?: File;
   setIcon: (file: File | undefined) => void;
 };
 
-export const UploadIcon = ({ nextPage, icon, setIcon }: Props) => {
+export const UploadIcon = ({ nextPage, prevPage, icon, setIcon }: Props) => {
   const [iconValid, setIconValid] = useState<Valid>({ valid: true });
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -88,16 +90,23 @@ export const UploadIcon = ({ nextPage, icon, setIcon }: Props) => {
           justifyContent: 'space-between',
         }}
       >
-        <DialogActionsButton
-          variant="text"
-          color="inherit"
-          onClick={handleClickSkip}
-        >
-          この手順をスキップする
-        </DialogActionsButton>
-        <DialogActionsButton onClick={handleClickNext}>
-          次へ
-        </DialogActionsButton>
+        <Box>
+          <DialogActionsButton
+            variant="text"
+            color="inherit"
+            onClick={handleClickSkip}
+          >
+            この手順をスキップする
+          </DialogActionsButton>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <DialogActionsButton color="inherit" onClick={prevPage}>
+            戻る
+          </DialogActionsButton>
+          <DialogActionsButton onClick={handleClickNext}>
+            次へ
+          </DialogActionsButton>
+        </Box>
       </DialogActions>
     </>
   );
