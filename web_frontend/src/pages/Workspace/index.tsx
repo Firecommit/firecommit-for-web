@@ -2,6 +2,7 @@ import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { AuthContext } from '../../component/AuthProvider';
+import { MapServerList } from '../../component/MapServerList';
 import { auth } from '../../firebase';
 import ShareIcon from './share-icon.svg';
 
@@ -68,7 +69,14 @@ export const WorkspaceScreen = withRouter((props) => {
             </Typography>
             <Paper
               elevation={3}
-              sx={{ width: '100%', height: 400, textAlign: 'left', pb: 2 }}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                height: 400,
+                textAlign: 'left',
+                pb: 2,
+              }}
             >
               <Typography
                 variant="body1"
@@ -83,6 +91,7 @@ export const WorkspaceScreen = withRouter((props) => {
               >
                 {currentUser?.email}のワークスペース
               </Typography>
+              <MapServerList sx={{ px: 10 }} />
             </Paper>
             <Button variant="outlined" onClick={signOut}>
               Sign Out
