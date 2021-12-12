@@ -61,6 +61,7 @@ export const CreateMapServerDialog = () => {
     const mapServer: MapServer = {
       id: nanoid(),
       name: orgName,
+      inAudit: true,
       adminUserId: currentUser?.uid,
       members: {},
     } as MapServer;
