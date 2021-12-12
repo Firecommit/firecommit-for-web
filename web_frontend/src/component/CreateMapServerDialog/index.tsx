@@ -78,6 +78,7 @@ export const CreateMapServerDialog = () => {
           mapServer.id
         );
       setSuccess('登録に成功しました。');
+      nextPage();
     } catch (error: any) {
       const serverResponse = JSON.parse(error.customData.serverResponse);
       setError(`登録に失敗しました。: ${serverResponse.error.message}`);

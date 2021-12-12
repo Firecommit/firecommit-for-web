@@ -1,15 +1,23 @@
+import { green } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
   interface Theme {
-    status: {};
+    status: {
+      success: string;
+    };
   }
   interface ThemeOptions {
-    status?: {};
+    status?: {
+      success: string;
+    };
   }
 }
 
 export const theme = createTheme({
+  status: {
+    success: green[500],
+  },
   palette: {
     primary: {
       main: '#fc8132',

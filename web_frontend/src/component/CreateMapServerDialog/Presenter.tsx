@@ -4,6 +4,7 @@ import { MapServerNaming } from './MapServerNaming';
 import { UploadIcon } from './UploadIcon';
 import { UploadBuildingDrawing } from './UploadBuildingDrawing';
 import { LoadingDialog } from '../LoadingDialog';
+import { CompleteCreateMap } from './Complete';
 
 export type OuterProps = {
   page: number;
@@ -53,6 +54,7 @@ export const CreateMapServerDialogPresenter = ({
       setBuildingDrawing={setBuildingDrawing}
       handleClickComplete={handleClickCreateMapServer}
     />,
+    <CompleteCreateMap />,
   ];
 
   return (
