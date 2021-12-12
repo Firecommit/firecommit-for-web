@@ -13,6 +13,7 @@
   "workspace": {
     "yamaba": {
       "name": "Yamaba Dentist",
+      "inAudit": true,
       "iconURL": "https://...",
       "maps": {
         "layer1": "https://...",
