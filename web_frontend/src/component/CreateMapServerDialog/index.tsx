@@ -10,6 +10,8 @@ import { NotificationDispatchContext } from '../NotificationProvider';
 export type Props = OuterProps & {};
 
 export const CreateMapServerDialog = () => {
+  const [loading, setLoading] = useState(false);
+
   const notificationDispatch = useContext(NotificationDispatchContext);
   const setSuccess = (message?: string) =>
     notificationDispatch({ type: 'SET_SUCCESS', message });
@@ -65,24 +67,28 @@ export const CreateMapServerDialog = () => {
     mapServer.members[currentUser.uid] = true;
 
     try {
+      setLoading(true);
+      const { id, ...data } = mapServer;
+      set(ref(db, `workspace/${id}`), data);
+
       if (icon) mapServer.iconURL = await uploadIcon(icon, mapServer.id);
       if (buildingDrawing)
         mapServer.maps = await uploadBuildingDrawing(
           buildingDrawing,
           mapServer.id
         );
-      const { id, ...data } = mapServer;
-
-      set(ref(db, `workspace/${id}`), data);
       setSuccess('登録に成功しました。');
     } catch (error: any) {
       const serverResponse = JSON.parse(error.customData.serverResponse);
       setError(`登録に失敗しました。: ${serverResponse.error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <CreateMapServerDialogPresenter
+      loading={loading}
       page={page}
       nextPage={nextPage}
       prevPage={prevPage}

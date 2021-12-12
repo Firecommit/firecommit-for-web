@@ -3,12 +3,14 @@ import { Box, Dialog } from '@mui/material';
 import { MapServerNaming } from './MapServerNaming';
 import { UploadIcon } from './UploadIcon';
 import { UploadBuildingDrawing } from './UploadBuildingDrawing';
+import { LoadingDialog } from '../LoadingDialog';
 
 export type OuterProps = {
   page: number;
 };
 
 export type Props = OuterProps & {
+  loading: boolean;
   nextPage: () => void;
   prevPage: () => void;
   orgName: string;
@@ -21,6 +23,7 @@ export type Props = OuterProps & {
 };
 
 export const CreateMapServerDialogPresenter = ({
+  loading,
   page,
   orgName,
   nextPage,
@@ -61,7 +64,7 @@ export const CreateMapServerDialogPresenter = ({
           height: '568px',
         }}
       >
-        {flow[page - 1]}
+        {loading ? <LoadingDialog /> : flow[page - 1]}
       </Box>
     </Dialog>
   );
