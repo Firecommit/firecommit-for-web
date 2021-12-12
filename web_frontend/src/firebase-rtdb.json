@@ -1,0 +1,27 @@
+{
+  "users": {
+    "F8gV4y05BVPnhyQm5KEnTJ43fFj2": {
+      "coordinate": {
+        "x": 0,
+        "y": 0
+      },
+      "workspace": {
+        "yamaba": true
+      }
+    }
+  },
+  "workspace": {
+    "yamaba": {
+      "name": "Yamaba Dentist",
+      "iconURL": "https://...",
+      "maps": {
+        "layer1": "https://...",
+        "layer2": "https://..."
+      },
+      "adminUser": "F8gV4y05BVPnhyQm5KEnTJ43fFj2",
+      "members": {
+        "F8gV4y05BVPnhyQm5KEnTJ43fFj2": true
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "ja": {
+    "attributes": {
+      "error": {
+        "method": {
+          "signup": {
+            "auth/email-already-in-use": "このメールアドレスは既に使用されています",
+            "auth/invalid-email": "メールアドレスの形式が正しくありません",
+            "auth/weak-password": "パスワードは6文字以上にしてください",
+            "auth/empty-name": "氏名を入力してください"
+          },
+          "signin": {
+            "auth/email-already-in-use": "メールアドレスまたはパスワードが違います",
+            "auth/invalid-email": "メールアドレスの形式が正しくありません",
+            "auth/user-disabled": "サービスの利用が停止されています",
+            "auth/user-not-found": "この識別子に対応するユーザーレコードはありません。 ユーザーが削除された可能性があります。",
+            "auth/user-mismatch": "メールアドレスまたはパスワードが違います",
+            "auth/wrong-password": "パスワードが無効であるか、ユーザーがパスワードを持っていません。"
+          }
+        }
+      }
+    }
+  }
+}
