@@ -86,6 +86,7 @@ export const DialogDropzone = ({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     maxFiles,
+    accept: 'image/jpeg, image/png',
   });
   const icon = React.cloneElement(iconProp, {
     sx: {
