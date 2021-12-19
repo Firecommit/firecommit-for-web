@@ -8,19 +8,15 @@ export const midPoint = (p1: Point, p2: Point): Point => ({
   y: (p1.y + p2.y) / 2,
 });
 
-export const pointSum = (p1: Point, p2: Point): Point => {
-  return {
-    x: p1.x + p2.x,
-    y: p1.y + p2.y,
-  };
-};
+export const pointSum = (p1: Point, p2: Point): Point => ({
+  x: p1.x + p2.x,
+  y: p1.y + p2.y,
+});
 
-export const pointDiff = (p1: Point, p2: Point) => {
-  return {
-    x: p1.x - p2.x,
-    y: p1.y - p2.y,
-  };
-};
+export const pointDiff = (p1: Point, p2: Point) => ({
+  x: p1.x - p2.x,
+  y: p1.y - p2.y,
+});
 
 export const pointDivision = (p: Point, scale: number): Point => ({
   x: p.x / scale,

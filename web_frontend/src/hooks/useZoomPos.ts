@@ -9,7 +9,7 @@ export const useZoomPos = (ref: RefObject<HTMLElement | null>) => {
   const setMidPos = (e: TouchEvent) => {
     e.preventDefault();
 
-    if (e.touches.length < 2) return { x: 0, y: 0 };
+    if (e.touches.length < 2) return;
 
     const p1 = { x: e.touches[0].pageX, y: e.touches[0].pageY };
     const p2 = { x: e.touches[1].pageX, y: e.touches[1].pageY };

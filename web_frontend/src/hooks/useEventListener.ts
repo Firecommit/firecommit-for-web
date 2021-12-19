@@ -10,7 +10,7 @@ export const useEventListener = <K extends keyof GlobalEventHandlersEventMap>(
     const node = ref.current;
 
     if (!node) {
-      return;
+      return () => {};
     }
 
     const listenerWrapper = ((e: GlobalEventHandlersEventMap[K]) =>

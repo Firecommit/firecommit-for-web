@@ -57,7 +57,7 @@ export const useScale = (ref: RefObject<HTMLElement | null>) => {
   useEventListener(ref, 'touchmove', (e) => {
     e.preventDefault();
 
-    if (e.touches.length < 2) return;
+    if (e.touches.length < 2) return 1;
 
     setScale((currentScale) => {
       let sc: number;
