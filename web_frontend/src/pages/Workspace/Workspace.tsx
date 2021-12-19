@@ -4,29 +4,33 @@ import { Box } from '@mui/system';
 import { useGetMapServer } from '../../hooks/useMapServer';
 import { Canvas } from '../../component/Canvas';
 import { UserIcon } from '../../component/UserIcon';
+import { useUserList } from '../../hooks/useUserList';
 
 export const WorkSpaceScreen = () => {
+  const position = React.useMemo(() => ({ x: 200, y: 300 }), []);
+
   const { wid } = useParams<{ wid: string }>();
   const mapServer = useGetMapServer(wid);
-  console.log('mapServer:', mapServer);
+  const userList = useUserList(wid, 2);
 
   return (
     <Box sx={{ height: '100vh', width: '100vw' }}>
       <Canvas
         canvasImage={mapServer?.maps.layer1 ?? ''}
-        position={{ x: 300, y: 300 }}
+        position={position}
         maxOffset={{ x: 1000, y: 1000 }}
         minOffset={{ x: -1000, y: -1000 }}
-        canvasChildren={[
-          {
-            child: <UserIcon currentUser />,
-            key: 'hoge',
-            height: 48,
-            width: 48,
-            rotate: 90,
-            position: { x: 200, y: 200 },
+        canvasChildren={userList.map((elm) => ({
+          child: <UserIcon />,
+          key: elm.id,
+          height: 48,
+          width: 48,
+          rotate: 0,
+          position: {
+            x: elm.coordinate.x,
+            y: elm.coordinate.y,
           },
-        ]}
+        }))}
       />
     </Box>
   );

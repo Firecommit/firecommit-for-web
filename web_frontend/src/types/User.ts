@@ -1,6 +1,6 @@
 export type Coordinate = {
-  latitude: number;
-  longtitude: number;
+  x: number;
+  y: number;
 };
 
 export type User = {
@@ -10,6 +10,6 @@ export type User = {
     [key: string]: boolean; // wid: isCurrentWorkspace
   };
   layer: {
-    [key: string]: boolean; // layer: isCurrentLayer
+    [key: number]: boolean; // layer: isCurrentLayer
   };
 };
