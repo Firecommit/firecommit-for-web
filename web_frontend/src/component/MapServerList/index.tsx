@@ -1,20 +1,37 @@
 import React from 'react';
-import { List } from '@mui/material';
+import { Box, CircularProgress, List } from '@mui/material';
 import { SxProps } from '@mui/system';
 import { MapServerListItem } from './MapServerListItem';
+import { useGetMapServerList } from '../../hooks/useGetMapServerList';
+import { MapServer } from '../../types/MapServer';
 
 type Props = { sx?: SxProps };
-export const MapServerList = ({ sx }: Props) => (
-  <List sx={{ height: '100%', overflow: 'scroll', ...sx }}>
-    {Array(10)
-      .fill(0)
-      .map(() => (
+export const MapServerList = ({ sx }: Props) => {
+  const mapServerList: Array<MapServer> = useGetMapServerList();
+
+  if (!mapServerList.length)
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <CircularProgress sx={{ '.MuiCircularProgress-svg': { m: 0 } }} />
+      </Box>
+    );
+
+  return (
+    <List sx={{ height: '100%', overflow: 'scroll', ...sx }}>
+      {mapServerList.map((elm) => (
         <MapServerListItem
-          id="hoge"
-          name="ほげほげ"
-          iconURL="https://firebasestorage.googleapis.com/v0/b/firecommit-1e1d5.appspot.com/o/icons%2FgDezyQ78QajSGB3W8zY8x.png?alt=media&token=e8f1ae91-c93e-4e79-af89-4cd9ffe38d1b"
+          key={elm.id}
+          id={elm.id}
+          name={elm.name}
+          iconURL={elm.iconURL}
         />
       ))}
-  </List>
-);
+    </List>
+  );
+};
 MapServerList.defaultProps = { sx: {} };
