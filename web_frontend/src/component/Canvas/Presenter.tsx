@@ -74,8 +74,8 @@ const CanvasInnerPresenter = (
       if (!anchor || anchor.vertical === 'center') translateY = height / 2;
       else if (anchor.vertical === 'top') translateY = 0;
       else if (anchor.vertical === 'bottom') translateY = height;
-      const additionalProps: { style: CSSProperties; key: string } = {
-        style: {
+      const additionalProps: { sx: CSSProperties; key: string } = {
+        sx: {
           ...child.props.style,
           height,
           width,
