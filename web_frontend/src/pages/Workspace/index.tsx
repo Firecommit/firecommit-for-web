@@ -6,7 +6,7 @@ import { MapServerList } from '../../component/MapServerList';
 import { auth } from '../../firebase';
 import ShareIcon from './share-icon.svg';
 
-export const WorkspaceScreen = withRouter((props) => {
+export const WorkspaceTopScreen = withRouter((props) => {
   const { currentUser } = useContext(AuthContext);
   const signOut = () => {
     auth.signOut().then(() => {

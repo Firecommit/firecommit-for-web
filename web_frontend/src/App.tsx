@@ -4,7 +4,8 @@ import { ThemeProvider } from '@emotion/react';
 
 import { theme } from './theme/theme';
 import { HomeScreen } from './pages/Home';
-import { WorkspaceScreen } from './pages/Workspace';
+import { WorkSpaceScreen } from './pages/Workspace/Workspace';
+import { WorkspaceTopScreen } from './pages/Workspace';
 import { SignInScreen } from './pages/SignIn';
 import { SignUpScreen } from './pages/SignUp';
 import { CreateMap } from './pages/CreateMap';
@@ -18,7 +19,16 @@ export const App = () => (
       <ThemeProvider theme={theme}>
         <Router>
           <Switch>
-            <PrivateRoute exact path="/workspace" component={WorkspaceScreen} />
+            <PrivateRoute
+              exact
+              path="/workspace"
+              component={WorkspaceTopScreen}
+            />
+            <PrivateRoute
+              exact
+              path="/workspace/:wid"
+              component={WorkSpaceScreen}
+            />
             <PrivateRoute exact path="/createmap" component={CreateMap} />
             <Route exact path="/" component={HomeScreen} />
             <AuthRoute exact path="/signin" component={SignInScreen} />
