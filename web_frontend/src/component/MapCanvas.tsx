@@ -1,22 +1,36 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/system';
-import { useUserList } from '../hooks/useUserList';
+import { useCurrentUser, useUserList } from '../hooks/useUserList';
 import { Canvas } from './Canvas';
 import { UserIcon } from './UserIcon';
-import { AuthContext } from './AuthProvider';
 import { MapServer } from '../types/MapServer';
 
 type MapCanvasProps = {
   wid: string;
+  isTracking: boolean;
   layer: number;
+  setLayer: (l: number) => void;
   mapServer: MapServer | undefined;
 };
-export const MapCanvas = ({ wid, layer, mapServer }: MapCanvasProps) => {
-  const position = React.useMemo(() => ({ x: 200, y: 300 }), []);
-
+export const MapCanvas = ({
+  wid,
+  isTracking,
+  layer,
+  setLayer,
+  mapServer,
+}: MapCanvasProps) => {
   const userList = useUserList(wid, layer);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  const currentUser = useContext(AuthContext);
+  const currentUser = useCurrentUser();
+  useEffect(() => {
+    if (!isTracking) return;
+    const l = Object.entries(currentUser?.layer ?? {}).find(
+      ([, value]) => value
+    ) ?? [`${layer}`];
+    setLayer(parseInt(l[0] ?? `${layer}`, 10));
+    setPosition(currentUser?.coordinate ?? { x: 0, y: 0 });
+  }, [currentUser, setLayer, layer, isTracking]);
 
   return (
     <Box sx={{ height: '100vh', width: '100vw' }}>
@@ -26,7 +40,7 @@ export const MapCanvas = ({ wid, layer, mapServer }: MapCanvasProps) => {
         maxOffset={{ x: 1000, y: 1000 }}
         minOffset={{ x: -1000, y: -1000 }}
         canvasChildren={userList.map((elm) => {
-          const isCurrentUser = currentUser.currentUser?.uid === elm.id;
+          const isCurrentUser = currentUser?.id === elm.id;
           return {
             child: <UserIcon currentUser={isCurrentUser} />,
             key: elm.id,

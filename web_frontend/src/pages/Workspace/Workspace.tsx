@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { ChangeEvent, useState } from 'react';
 import { Fab } from '@mui/material';
 import { Layers as LayersIcon } from '@mui/icons-material';
@@ -10,12 +9,16 @@ import { useGetMapServer } from '../../hooks/useMapServer';
 
 export const WorkSpaceScreen = () => {
   const { wid } = useParams<{ wid: string }>();
+  const [isTracking, setIsTracking] = useState(true);
+
   const [open, setOpen] = useState(false);
   const handleOpenLayerDialog = () => setOpen(true);
   const handleCloseLayerDialog = () => setOpen(false);
   const [layer, setLayer] = useState(1);
-  const handleChangeLayer = (e: ChangeEvent<HTMLInputElement>) =>
+  const handleChangeLayer = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsTracking(false);
     setLayer(parseInt(e.target.value, 10));
+  };
 
   const mapServer = useGetMapServer(wid);
   const layerList = Object.keys(mapServer?.maps ?? {}).map((key) =>
@@ -24,7 +27,13 @@ export const WorkSpaceScreen = () => {
 
   return (
     <>
-      <MapCanvas wid={wid} layer={layer} mapServer={mapServer} />
+      <MapCanvas
+        wid={wid}
+        isTracking={isTracking}
+        layer={layer}
+        setLayer={setLayer}
+        mapServer={mapServer}
+      />
       <SelectLayerDialog
         open={open}
         onClose={handleCloseLayerDialog}
