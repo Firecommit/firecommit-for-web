@@ -1,43 +1,49 @@
-import React, { useContext } from 'react';
+/* eslint-disable */
+import React, { ChangeEvent, useState } from 'react';
+import { Fab } from '@mui/material';
+import { Layers as LayersIcon } from '@mui/icons-material';
 import { useParams } from 'react-router';
-import { Box } from '@mui/system';
+import { MapCanvas } from '../../component/MapCanvas';
+import { theme } from '../../theme/theme';
+import { SelectLayerDialog } from '../../component/SelectLayerDialog';
 import { useGetMapServer } from '../../hooks/useMapServer';
-import { Canvas } from '../../component/Canvas';
-import { UserIcon } from '../../component/UserIcon';
-import { useUserList } from '../../hooks/useUserList';
-import { AuthContext } from '../../component/AuthProvider';
 
 export const WorkSpaceScreen = () => {
-  const position = React.useMemo(() => ({ x: 200, y: 300 }), []);
-
   const { wid } = useParams<{ wid: string }>();
-  const mapServer = useGetMapServer(wid);
-  const userList = useUserList(wid, 1);
+  const [open, setOpen] = useState(false);
+  const handleOpenLayerDialog = () => setOpen(true);
+  const handleCloseLayerDialog = () => setOpen(false);
+  const [layer, setLayer] = useState(1);
+  const handleChangeLayer = (e: ChangeEvent<HTMLInputElement>) =>
+    setLayer(parseInt(e.target.value, 10));
 
-  const currentUser = useContext(AuthContext);
+  const mapServer = useGetMapServer(wid);
+  const layerList = Object.keys(mapServer?.maps ?? {}).map((key) =>
+    parseInt(key.slice(5), 10)
+  );
 
   return (
-    <Box sx={{ height: '100vh', width: '100vw' }}>
-      <Canvas
-        canvasImage={mapServer?.maps.layer1 ?? ''}
-        position={position}
-        maxOffset={{ x: 1000, y: 1000 }}
-        minOffset={{ x: -1000, y: -1000 }}
-        canvasChildren={userList.map((elm) => {
-          const isCurrentUser = currentUser.currentUser?.uid === elm.id;
-          return {
-            child: <UserIcon currentUser={isCurrentUser} />,
-            key: elm.id,
-            height: isCurrentUser ? 48 : 40,
-            width: isCurrentUser ? 48 : 40,
-            rotate: 0,
-            position: {
-              x: elm.coordinate.x,
-              y: elm.coordinate.y,
-            },
-          };
-        })}
+    <>
+      <MapCanvas wid={wid} layer={layer} mapServer={mapServer} />
+      <SelectLayerDialog
+        open={open}
+        onClose={handleCloseLayerDialog}
+        layer={layer}
+        onChangeLayer={handleChangeLayer}
+        layerList={layerList}
       />
-    </Box>
+      <Fab
+        onClick={handleOpenLayerDialog}
+        sx={{
+          position: 'fixed',
+          right: 16,
+          bottom: 16,
+          color: theme.palette.primary.main,
+          backgroundColor: 'white',
+        }}
+      >
+        <LayersIcon />
+      </Fab>
+    </>
   );
 };
