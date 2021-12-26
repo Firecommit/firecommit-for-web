@@ -3,7 +3,7 @@ import { ref, onValue } from 'firebase/database';
 import { db } from '../firebase';
 import { MapServer } from '../types/MapServer';
 
-export const useGetMapServer = (wid: string) => {
+export const useGetMapServer = (wid: string): MapServer | undefined => {
   const [mapServer, setMapServer] = useState<MapServer>();
 
   useEffect(() => {
