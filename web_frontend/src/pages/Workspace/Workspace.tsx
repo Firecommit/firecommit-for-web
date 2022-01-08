@@ -1,6 +1,10 @@
 import React, { ChangeEvent, useState } from 'react';
-import { Fab } from '@mui/material';
-import { Layers as LayersIcon } from '@mui/icons-material';
+import { Box, Fab } from '@mui/material';
+import {
+  Layers as LayersIcon,
+  MyLocation as MyLocationIcon,
+  LocationSearching as LocationSearchingIcon,
+} from '@mui/icons-material';
 import { useParams } from 'react-router';
 import { MapCanvas } from '../../component/MapCanvas';
 import { theme } from '../../theme/theme';
@@ -9,11 +13,14 @@ import { useGetMapServer } from '../../hooks/useMapServer';
 
 export const WorkSpaceScreen = () => {
   const { wid } = useParams<{ wid: string }>();
-  const [isTracking, setIsTracking] = useState(true);
 
   const [open, setOpen] = useState(false);
   const handleOpenLayerDialog = () => setOpen(true);
   const handleCloseLayerDialog = () => setOpen(false);
+  const [isTracking, setIsTracking] = useState(true);
+  const handleToggleIsTracking = () => {
+    setIsTracking(!isTracking);
+  };
   const [layer, setLayer] = useState(1);
   const handleChangeLayer = (e: ChangeEvent<HTMLInputElement>) => {
     setIsTracking(false);
@@ -30,6 +37,7 @@ export const WorkSpaceScreen = () => {
       <MapCanvas
         wid={wid}
         isTracking={isTracking}
+        setIsTracking={setIsTracking}
         layer={layer}
         setLayer={setLayer}
         mapServer={mapServer}
@@ -41,18 +49,35 @@ export const WorkSpaceScreen = () => {
         onChangeLayer={handleChangeLayer}
         layerList={layerList}
       />
-      <Fab
-        onClick={handleOpenLayerDialog}
+      <Box
         sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
           position: 'fixed',
           right: 16,
           bottom: 16,
-          color: theme.palette.primary.main,
-          backgroundColor: 'white',
         }}
       >
-        <LayersIcon />
-      </Fab>
+        <Fab
+          onClick={handleOpenLayerDialog}
+          sx={{
+            color: theme.palette.primary.main,
+            backgroundColor: 'white',
+          }}
+        >
+          <LayersIcon />
+        </Fab>
+        <Fab
+          onClick={handleToggleIsTracking}
+          sx={{
+            color: theme.palette.primary.main,
+            backgroundColor: 'white',
+          }}
+        >
+          {isTracking ? <MyLocationIcon /> : <LocationSearchingIcon />}
+        </Fab>
+      </Box>
     </>
   );
 };

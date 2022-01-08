@@ -13,6 +13,8 @@ export type Props = OuterProps & {
   position: Point;
   maxOffset: Point;
   minOffset: Point;
+  setIsTracking: (isTracking: boolean) => void;
+  forcePositionUpdate: boolean;
 };
 
 export const Canvas = ({
@@ -20,6 +22,8 @@ export const Canvas = ({
   position,
   maxOffset,
   minOffset,
+  setIsTracking,
+  forcePositionUpdate,
   canvasChildren,
 }: Props) => {
   const [buffer, setBuffer] = useState({ x: 0, y: 0 });
@@ -28,6 +32,7 @@ export const Canvas = ({
   const [offset, startMousePan, startTouchPan] = usePan();
   const scale = useScale(ref);
   const [rerender, setRerender] = useState<boolean>(false);
+  const isFirstRendering = useRef(true);
 
   const lastOffset = useLast<Point>(offset);
   const lastScale = useLast<number>(scale);
@@ -39,6 +44,14 @@ export const Canvas = ({
   let adjustedOffset = adjustedOffsetRef.current;
 
   useEffect(() => {
+    if (isFirstRendering.current) {
+      isFirstRendering.current = false;
+    } else {
+      setIsTracking(false);
+    }
+  }, [offset, setIsTracking]);
+
+  useEffect(() => {
     // Update adjustedOffsetRef to adjustedOffset when each rerender
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
     adjustedOffset = pointSum(initialAdjustedOffset.current, {
@@ -46,7 +59,7 @@ export const Canvas = ({
       y: position.y - (ref?.current?.clientHeight ?? 0) / 2,
     });
     setRerender(!rerender);
-  }, [position]);
+  }, [position, forcePositionUpdate]);
 
   if (lastScale === scale) {
     adjustedOffset = pointSum(

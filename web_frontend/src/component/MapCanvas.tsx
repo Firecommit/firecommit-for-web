@@ -8,6 +8,7 @@ import { MapServer } from '../types/MapServer';
 type MapCanvasProps = {
   wid: string;
   isTracking: boolean;
+  setIsTracking: (isTracking: boolean) => void;
   layer: number;
   setLayer: (l: number) => void;
   mapServer: MapServer | undefined;
@@ -15,12 +16,14 @@ type MapCanvasProps = {
 export const MapCanvas = ({
   wid,
   isTracking,
+  setIsTracking,
   layer,
   setLayer,
   mapServer,
 }: MapCanvasProps) => {
   const userList = useUserList(wid, layer);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [forcePositionUpdate, setForcePositionUpdate] = useState(false);
 
   const currentUser = useCurrentUser();
   useEffect(() => {
@@ -30,7 +33,15 @@ export const MapCanvas = ({
     ) ?? [`${layer}`];
     setLayer(parseInt(l[0] ?? `${layer}`, 10));
     setPosition(currentUser?.coordinate ?? { x: 0, y: 0 });
-  }, [currentUser, setLayer, layer, isTracking]);
+    setForcePositionUpdate(!forcePositionUpdate);
+  }, [
+    currentUser,
+    setLayer,
+    layer,
+    isTracking,
+    forcePositionUpdate,
+    setForcePositionUpdate,
+  ]);
 
   return (
     <Box sx={{ height: '100vh', width: '100vw' }}>
@@ -39,6 +50,8 @@ export const MapCanvas = ({
         position={position}
         maxOffset={{ x: 1000, y: 1000 }}
         minOffset={{ x: -1000, y: -1000 }}
+        setIsTracking={setIsTracking}
+        forcePositionUpdate={forcePositionUpdate}
         canvasChildren={userList.map((elm) => {
           const isCurrentUser = currentUser?.id === elm.id;
           return {
