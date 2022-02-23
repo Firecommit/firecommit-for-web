@@ -8,6 +8,7 @@ import { Point } from '../../types/Point';
 import { pointDiff, pointDivision, pointSum } from '../../utils/pointUtils';
 
 import { CanvasPresenter, OuterProps } from './Presenter';
+import { useAdjustedOffset } from '../../hooks/useAdjustedOffset';
 
 export type Props = OuterProps & {
   position: Point;
@@ -42,6 +43,7 @@ export const Canvas = ({
   const initialAdjustedOffset = useRef<Point>(pointSum(offset, offsetDelta));
   const adjustedOffsetRef = useRef<Point>(initialAdjustedOffset.current);
   let adjustedOffset = adjustedOffsetRef.current;
+  useAdjustedOffset(adjustedOffset);
 
   useEffect(() => {
     if (isFirstRendering.current) {

@@ -1,15 +1,15 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Box, Fab } from '@mui/material';
-import {
-  Layers as LayersIcon,
-  MyLocation as MyLocationIcon,
-  LocationSearching as LocationSearchingIcon,
-} from '@mui/icons-material';
+import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import LayersIcon from '@mui/icons-material/Layers';
+import PinDropIcon from '@mui/icons-material/PinDrop';
 import { useParams } from 'react-router';
 import { MapCanvas } from '../../component/MapCanvas';
 import { theme } from '../../theme/theme';
 import { SelectLayerDialog } from '../../component/SelectLayerDialog';
 import { useGetMapServer } from '../../hooks/useMapServer';
+import { useAdjustedOffset } from '../../hooks/useAdjustedOffset';
 
 export const WorkSpaceScreen = () => {
   const { wid } = useParams<{ wid: string }>();
@@ -25,6 +25,12 @@ export const WorkSpaceScreen = () => {
   const handleChangeLayer = (e: ChangeEvent<HTMLInputElement>) => {
     setIsTracking(false);
     setLayer(parseInt(e.target.value, 10));
+  };
+
+  const [adjustedOffset] = useAdjustedOffset();
+  const handleClickSetInitialPosition = () => {
+    console.log('adjustedOffset:', adjustedOffset);
+    console.log('initial position:');
   };
 
   const mapServer = useGetMapServer(wid);
@@ -56,7 +62,7 @@ export const WorkSpaceScreen = () => {
           gap: 1,
           position: 'fixed',
           right: 16,
-          bottom: 16,
+          bottom: 64,
         }}
       >
         <Fab
@@ -76,6 +82,15 @@ export const WorkSpaceScreen = () => {
           }}
         >
           {isTracking ? <MyLocationIcon /> : <LocationSearchingIcon />}
+        </Fab>
+        <Fab
+          onClick={handleClickSetInitialPosition}
+          sx={{
+            color: 'white',
+            backgroundColor: theme.palette.primary.main,
+          }}
+        >
+          <PinDropIcon />
         </Fab>
       </Box>
     </>
