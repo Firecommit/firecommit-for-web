@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/system';
 import { useCurrentUser, useUserList } from '../hooks/useUserList';
 import { Canvas } from './Canvas';
@@ -24,6 +24,7 @@ export const MapCanvas = ({
   const userList = useUserList(wid, layer);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [forcePositionUpdate, setForcePositionUpdate] = useState(false);
+  const currentUserRef = useRef<HTMLInputElement>(null);
 
   const currentUser = useCurrentUser();
   useEffect(() => {
@@ -45,6 +46,7 @@ export const MapCanvas = ({
 
   return (
     <Box sx={{ height: '100vh', width: '100vw' }}>
+      <input id="userId" style={{ display: 'none' }} ref={currentUserRef} />
       <Canvas
         canvasImage={mapServer?.maps[`layer${layer}`] ?? ''}
         position={position}
