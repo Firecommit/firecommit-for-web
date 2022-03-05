@@ -17,11 +17,13 @@ export const useUserList = (wid: string, layer: number) => {
           id: key,
           ...value,
         }))
-        .filter((elm) => elm.workspace[wid] && elm?.layer[layer]);
+        .filter(
+          (elm) => elm.workspace && elm.workspace[wid] && elm?.layer[layer]
+        );
     });
 
     setUserList(tmp);
-  }, [userList, wid, layer]);
+  }, [wid, layer]);
 
   return userList;
 };
