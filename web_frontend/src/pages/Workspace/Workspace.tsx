@@ -9,7 +9,7 @@ import { MapCanvas } from '../../component/MapCanvas';
 import { theme } from '../../theme/theme';
 import { SelectLayerDialog } from '../../component/SelectLayerDialog';
 import { useGetMapServer } from '../../hooks/useMapServer';
-import { useAdjustedOffset } from '../../hooks/useAdjustedOffset';
+import { SetInitialPosition } from '../../component/SetInitialPosition';
 
 export const WorkSpaceScreen = () => {
   const { wid } = useParams<{ wid: string }>();
@@ -27,10 +27,12 @@ export const WorkSpaceScreen = () => {
     setLayer(parseInt(e.target.value, 10));
   };
 
-  const [adjustedOffset] = useAdjustedOffset();
+  const [initialPositionOpen, setInitialPositionOpen] = useState(false);
+  const handleCloseInitialPositionOpen = () => {
+    setInitialPositionOpen(false);
+  };
   const handleClickSetInitialPosition = () => {
-    console.log('adjustedOffset:', adjustedOffset);
-    console.log('initial position:');
+    setInitialPositionOpen((pre) => !pre);
   };
 
   const mapServer = useGetMapServer(wid);
@@ -83,16 +85,23 @@ export const WorkSpaceScreen = () => {
         >
           {isTracking ? <MyLocationIcon /> : <LocationSearchingIcon />}
         </Fab>
-        <Fab
-          onClick={handleClickSetInitialPosition}
-          sx={{
-            color: 'white',
-            backgroundColor: theme.palette.primary.main,
-          }}
-        >
-          <PinDropIcon />
-        </Fab>
+        {'ReactNativeWebView' in window && (
+          <Fab
+            onClick={handleClickSetInitialPosition}
+            sx={{
+              color: 'white',
+              backgroundColor: theme.palette.primary.main,
+            }}
+          >
+            <PinDropIcon />
+          </Fab>
+        )}
       </Box>
+      <SetInitialPosition
+        layer={layer}
+        open={initialPositionOpen}
+        onClose={handleCloseInitialPositionOpen}
+      />
     </>
   );
 };
