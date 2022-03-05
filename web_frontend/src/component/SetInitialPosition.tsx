@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { styled } from '@mui/system';
 import { useAdjustedOffset } from '../hooks/useAdjustedOffset';
+import { ScaleContext } from './ScaleProvider';
 
 const Container = styled('div')`
   position: fixed;
@@ -32,14 +33,16 @@ export const SetInitialPosition = ({
 }: SetInitialPositionProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const scale = useContext(ScaleContext);
   const [adjustedOffset] = useAdjustedOffset();
   useEffect(() => {
+    if (!open) return () => () => {};
     const f = (e: TouchEvent) => {
       if ('ReactNativeWebView' in window) {
         window.ReactNativeWebView.postMessage(
           JSON.stringify({
-            x: e.changedTouches[0].pageX + adjustedOffset.x,
-            y: e.changedTouches[0].pageY + adjustedOffset.y,
+            x: e.changedTouches[0].pageX / scale + adjustedOffset.x,
+            y: e.changedTouches[0].pageY / scale + adjustedOffset.y,
             layer,
           })
         );
@@ -51,7 +54,7 @@ export const SetInitialPosition = ({
     return () => {
       container?.removeEventListener('touchend', f);
     };
-  }, [onClose, adjustedOffset, layer]);
+  }, [open, onClose, adjustedOffset, layer, scale]);
   return (
     <Container
       ref={containerRef}
