@@ -1,7 +1,8 @@
-import { RefObject, useState } from 'react';
+import { RefObject, useContext, useState } from 'react';
 import { useEventListener } from './useEventListener';
 
 import { Point } from '../types/Point';
+import { ScaleContext, ScaleDispatchContext } from '../component/ScaleProvider';
 
 type ScaleOpts = {
   direction: 'up' | 'down';
@@ -12,7 +13,21 @@ const MIN_SCALE = 0.5;
 const MAX_SCALE = 3;
 
 export const useScale = (ref: RefObject<HTMLElement | null>) => {
-  const [scale, setScale] = useState(1);
+  const scale = useContext(ScaleContext);
+  const dispatch = useContext(ScaleDispatchContext);
+  const setScale = (num: number | ((num: number) => number)) => {
+    if (typeof num === 'number') {
+      dispatch({
+        type: 'SET_SCALE',
+        scale: num,
+      });
+    } else {
+      dispatch({
+        type: 'SET_SCALE_FUNCTION',
+        scale: num,
+      });
+    }
+  };
   const [baseDistance, setBaseDistance] = useState(0);
 
   const getTwoPointDistance = (p1: Point, p2: Point) =>
