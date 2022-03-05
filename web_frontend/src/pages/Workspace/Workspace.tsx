@@ -4,6 +4,7 @@ import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import LayersIcon from '@mui/icons-material/Layers';
 import PinDropIcon from '@mui/icons-material/PinDrop';
+import CloseIcon from '@mui/icons-material/Close';
 import { useParams } from 'react-router';
 import { MapCanvas } from '../../component/MapCanvas';
 import { theme } from '../../theme/theme';
@@ -57,6 +58,11 @@ export const WorkSpaceScreen = () => {
         onChangeLayer={handleChangeLayer}
         layerList={layerList}
       />
+      <SetInitialPosition
+        layer={layer}
+        open={initialPositionOpen}
+        onClose={handleCloseInitialPositionOpen}
+      />
       <Box
         sx={{
           display: 'flex',
@@ -67,41 +73,50 @@ export const WorkSpaceScreen = () => {
           bottom: 64,
         }}
       >
-        <Fab
-          onClick={handleOpenLayerDialog}
-          sx={{
-            color: theme.palette.primary.main,
-            backgroundColor: 'white',
-          }}
-        >
-          <LayersIcon />
-        </Fab>
-        <Fab
-          onClick={handleToggleIsTracking}
-          sx={{
-            color: theme.palette.primary.main,
-            backgroundColor: 'white',
-          }}
-        >
-          {isTracking ? <MyLocationIcon /> : <LocationSearchingIcon />}
-        </Fab>
-        {'ReactNativeWebView' in window && (
+        {initialPositionOpen ? (
           <Fab
-            onClick={handleClickSetInitialPosition}
+            onClick={handleCloseInitialPositionOpen}
             sx={{
-              color: 'white',
-              backgroundColor: theme.palette.primary.main,
+              color: 'gray',
+              backgroundColor: 'white',
             }}
           >
-            <PinDropIcon />
+            <CloseIcon />
           </Fab>
+        ) : (
+          <>
+            <Fab
+              onClick={handleOpenLayerDialog}
+              sx={{
+                color: theme.palette.primary.main,
+                backgroundColor: 'white',
+              }}
+            >
+              <LayersIcon />
+            </Fab>
+            <Fab
+              onClick={handleToggleIsTracking}
+              sx={{
+                color: theme.palette.primary.main,
+                backgroundColor: 'white',
+              }}
+            >
+              {isTracking ? <MyLocationIcon /> : <LocationSearchingIcon />}
+            </Fab>
+            {'ReactNativeWebView' in window && (
+              <Fab
+                onClick={handleClickSetInitialPosition}
+                sx={{
+                  color: 'white',
+                  backgroundColor: theme.palette.primary.main,
+                }}
+              >
+                <PinDropIcon />
+              </Fab>
+            )}
+          </>
         )}
       </Box>
-      <SetInitialPosition
-        layer={layer}
-        open={initialPositionOpen}
-        onClose={handleCloseInitialPositionOpen}
-      />
     </>
   );
 };
