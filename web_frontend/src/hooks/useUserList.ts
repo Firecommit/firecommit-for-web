@@ -28,10 +28,12 @@ export const useUserList = (wid: string, layer: number) => {
   return userList;
 };
 
-export const useCurrentUser = (): User | undefined => {
+export const useCurrentUser = (inWebView?: boolean): User | undefined => {
   const [currentUser, setCurrentUser] = useState<User>();
 
-  const currentUserId = useContext(AuthContext).currentUser?.uid;
+  const inputValue = <HTMLInputElement>document.getElementById('userId');
+  const contextValue = useContext(AuthContext).currentUser?.uid;
+  const currentUserId = inWebView ? inputValue.value : contextValue;
   if (!currentUserId) return undefined;
   const currentUserRef = ref(db, `users/${currentUserId}`);
   let tmp: User | undefined;
