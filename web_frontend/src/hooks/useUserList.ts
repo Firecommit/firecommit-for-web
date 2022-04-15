@@ -18,7 +18,8 @@ export const useUserList = (wid: string, layer: number) => {
           ...value,
         }))
         .filter(
-          (elm) => elm.workspace && elm.workspace[wid] && elm?.layer[layer]
+          (elm) =>
+            elm.workspace && elm.workspace[wid] && elm.layer && elm.layer[layer]
         );
     });
 
