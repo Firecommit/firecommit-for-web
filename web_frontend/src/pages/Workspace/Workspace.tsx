@@ -6,7 +6,6 @@ import { MapCanvas } from '../../component/MapCanvas';
 import { theme } from '../../theme/theme';
 import { SelectLayerDialog } from '../../component/SelectLayerDialog';
 import { useGetMapServer } from '../../hooks/useMapServer';
-import { SetInitialPosition } from '../../component/SetInitialPosition';
 
 export const WorkSpaceScreen = () => {
   const { wid } = useParams<{ wid: string }>();
@@ -19,11 +18,6 @@ export const WorkSpaceScreen = () => {
   const handleChangeLayer = (e: ChangeEvent<HTMLInputElement>) => {
     setIsTracking(false);
     setLayer(parseInt(e.target.value, 10));
-  };
-
-  const [initialPositionOpen, setInitialPositionOpen] = useState(false);
-  const handleCloseInitialPositionOpen = () => {
-    setInitialPositionOpen(false);
   };
 
   const mapServer = useGetMapServer(wid);
@@ -47,11 +41,6 @@ export const WorkSpaceScreen = () => {
         layer={layer}
         onChangeLayer={handleChangeLayer}
         layerList={layerList}
-      />
-      <SetInitialPosition
-        layer={layer}
-        open={initialPositionOpen}
-        onClose={handleCloseInitialPositionOpen}
       />
       <Box
         sx={{
