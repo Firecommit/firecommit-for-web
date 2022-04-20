@@ -6,6 +6,7 @@ import { MapCanvas } from '../../component/MapCanvas';
 import { theme } from '../../theme/theme';
 import { SelectLayerDialog } from '../../component/SelectLayerDialog';
 import { useGetMapServer } from '../../hooks/useMapServer';
+import { WorkSpaceLayout } from '../../component/WorkspaceLayout';
 
 export const WorkSpaceScreen = () => {
   const { wid } = useParams<{ wid: string }>();
@@ -26,7 +27,7 @@ export const WorkSpaceScreen = () => {
   );
 
   return (
-    <>
+    <WorkSpaceLayout wid={wid}>
       <MapCanvas
         wid={wid}
         isTracking={isTracking}
@@ -62,6 +63,6 @@ export const WorkSpaceScreen = () => {
           <LayersIcon />
         </Fab>
       </Box>
-    </>
+    </WorkSpaceLayout>
   );
 };
