@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  Divider,
-  Drawer,
-  Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from '@mui/material';
+import { Divider, Drawer, List } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useGetMapServer } from '../../hooks/useMapServer';
 import { SidebarListItem, SidebarListItemProps } from './SidebarListItem';
+import { MapServerName } from './MapServerName';
 
 export type SidebarProps = {
   open: boolean;
@@ -39,23 +32,10 @@ export const Sidebar = ({ open, wid }: SidebarProps) => {
       }}
     >
       <List sx={{ minWidth: '240px' }}>
-        <ListItem>
-          <Grid component={ListItemIcon} xs={1}>
-            <img
-              src={mapServer?.iconURL}
-              alt="icon"
-              style={{ width: '80%', height: 'auto' }}
-            />
-          </Grid>
-          <Grid
-            component={ListItemText}
-            primary={mapServer?.name}
-            xs={11}
-            primaryTypographyProps={{
-              sx: { fontSize: '20px' },
-            }}
-          />
-        </ListItem>
+        <MapServerName
+          mapServerName={mapServer?.name ?? ''}
+          iconURL={mapServer?.iconURL ?? ''}
+        />
         <Divider />
         {list.map((item) => (
           <SidebarListItem {...item} />
