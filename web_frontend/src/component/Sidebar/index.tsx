@@ -8,7 +8,9 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useGetMapServer } from '../../hooks/useMapServer';
+import { SidebarListItem, SidebarListItemProps } from './SidebarListItem';
 
 export type SidebarProps = {
   open: boolean;
@@ -16,7 +18,15 @@ export type SidebarProps = {
 };
 export const Sidebar = ({ open, wid }: SidebarProps) => {
   const mapServer = useGetMapServer(wid);
-  const list: Array<{ title: string }> = [];
+  const list: Array<SidebarListItemProps> = [
+    {
+      title: '招待コードを表示',
+      icon: <PersonAddIcon />,
+      onClick() {
+        console.log('招待');
+      },
+    },
+  ];
 
   return (
     <Drawer
@@ -48,9 +58,7 @@ export const Sidebar = ({ open, wid }: SidebarProps) => {
         </ListItem>
         <Divider />
         {list.map((item) => (
-          <ListItem>
-            <ListItemText primary={item.title} />
-          </ListItem>
+          <SidebarListItem {...item} />
         ))}
       </List>
     </Drawer>
