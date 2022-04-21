@@ -1,22 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Divider, Drawer, List } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useGetMapServer } from '../../hooks/useMapServer';
 import { SidebarListItem, SidebarListItemProps } from './SidebarListItem';
 import { MapServerName } from './MapServerName';
+import { MapServerIdDialog } from '../MapServerIdDialog';
 
 export type SidebarProps = {
   open: boolean;
   wid: string;
 };
 export const Sidebar = ({ open, wid }: SidebarProps) => {
+  const [openMapServerIdDialog, setOpenMapServerIdDialog] = useState(false);
+  const handleCLoseMapServerIdDialog = () => setOpenMapServerIdDialog(false);
   const mapServer = useGetMapServer(wid);
   const list: Array<SidebarListItemProps> = [
     {
-      title: '招待コードを表示',
+      title: 'マップサーバーIDを表示',
       icon: <PersonAddIcon />,
       onClick() {
-        console.log('招待');
+        setOpenMapServerIdDialog(true);
       },
     },
   ];
@@ -41,6 +44,11 @@ export const Sidebar = ({ open, wid }: SidebarProps) => {
           <SidebarListItem {...item} />
         ))}
       </List>
+      <MapServerIdDialog
+        wid={wid}
+        open={openMapServerIdDialog}
+        onClose={handleCLoseMapServerIdDialog}
+      />
     </Drawer>
   );
 };
