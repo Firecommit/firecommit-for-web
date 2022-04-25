@@ -12,6 +12,7 @@ import {
 import { useCurrentUser } from '../../hooks/useUserList';
 import { ChangePasswordDialog } from './ChangePasswordDialog';
 import { DialogTextField } from './DialogTextField';
+import { updateUserName } from './api';
 
 export type UserSettingsDialogProps = {
   open: boolean;
@@ -40,6 +41,17 @@ export const UserSettingsDialog = ({
     setUserName(currentUser.name ?? '');
     setEmail(currentUser.email ?? '');
   }, [currentUser]);
+
+  const handleClickUpdate = async () => {
+    if (currentUser === undefined) return;
+    try {
+      if (userName !== currentUser?.name) {
+        await updateUserName(userName, currentUser.id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -77,7 +89,9 @@ export const UserSettingsDialog = ({
           <Button variant="outlined" onClick={onClose}>
             閉じる
           </Button>
-          <Button variant="contained">更新</Button>
+          <Button variant="contained" onClick={handleClickUpdate}>
+            更新
+          </Button>
         </DialogActions>
       </Dialog>
       <ChangePasswordDialog
