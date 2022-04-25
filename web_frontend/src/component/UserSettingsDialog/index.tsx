@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -25,7 +25,21 @@ export const UserSettingsDialog = ({
   const handleOpenChangePassword = () => setOpenChangePassword(true);
   const handleCloseChangePassword = () => setOpenChangePassword(false);
   const currentUser = useCurrentUser();
-  console.log('currentUser:', currentUser);
+
+  const [userName, setUserName] = useState(currentUser?.name ?? '');
+  const handleChangeUserName = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserName(e.target.value);
+  };
+  const [email, setEmail] = useState(currentUser?.email ?? '');
+  const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  useEffect(() => {
+    if (currentUser === undefined) return;
+    setUserName(currentUser.name ?? '');
+    setEmail(currentUser.email ?? '');
+  }, [currentUser]);
 
   return (
     <>
@@ -37,12 +51,14 @@ export const UserSettingsDialog = ({
           <DialogTextField
             label="ユーザ名"
             textFieldLabel="名前"
-            value="hoge"
+            value={userName}
+            onChange={handleChangeUserName}
           />
           <DialogTextField
             label="メールアドレス"
             textFieldLabel="メールアドレス"
-            value="fuga"
+            value={email}
+            onChange={handleChangeEmail}
           />
           <Grid
             container

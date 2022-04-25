@@ -18,6 +18,6 @@ export const DialogTextField = ({
   <Grid container flexDirection="column" alignItems="flex-start" gap={2}>
     <Divider flexItem />
     <Typography>{label}</Typography>
-    <TextField size="small" label={textFieldLabel} {...props} />
+    <TextField fullWidth size="small" label={textFieldLabel} {...props} />
   </Grid>
 );
