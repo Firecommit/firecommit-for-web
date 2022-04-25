@@ -12,7 +12,7 @@ import {
 import { useCurrentUser } from '../../hooks/useUserList';
 import { ChangePasswordDialog } from './ChangePasswordDialog';
 import { DialogTextField } from './DialogTextField';
-import { updateUserName } from './api';
+import { updateEmail, updateUserName } from './api';
 
 export type UserSettingsDialogProps = {
   open: boolean;
@@ -44,10 +44,15 @@ export const UserSettingsDialog = ({
 
   const handleClickUpdate = async () => {
     if (currentUser === undefined) return;
+    const promises: Array<Promise<any>> = [];
     try {
-      if (userName !== currentUser?.name) {
-        await updateUserName(userName, currentUser.id);
+      if (userName !== currentUser.name) {
+        promises.push(updateUserName(userName, currentUser.id));
       }
+      if (email !== currentUser.email) {
+        promises.push(updateEmail(email, currentUser.id));
+      }
+      await Promise.all(promises);
     } catch (error) {
       console.error(error);
     }
