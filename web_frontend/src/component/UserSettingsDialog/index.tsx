@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -13,6 +13,7 @@ import { useCurrentUser } from '../../hooks/useUserList';
 import { ChangePasswordDialog } from './ChangePasswordDialog';
 import { DialogTextField } from './DialogTextField';
 import { updateEmail, updateUserName } from './api';
+import { NotificationDispatchContext } from '../NotificationProvider';
 
 export type UserSettingsDialogProps = {
   open: boolean;
@@ -22,6 +23,12 @@ export const UserSettingsDialog = ({
   open,
   onClose,
 }: UserSettingsDialogProps) => {
+  const notificationDispatch = useContext(NotificationDispatchContext);
+  const setSuccess = (message?: string) =>
+    notificationDispatch({ type: 'SET_SUCCESS', message });
+  const setError = (message?: string) =>
+    notificationDispatch({ type: 'SET_ERROR', message });
+
   const [openChangePassword, setOpenChangePassword] = useState(false);
   const handleOpenChangePassword = () => setOpenChangePassword(true);
   const handleCloseChangePassword = () => setOpenChangePassword(false);
@@ -52,9 +59,10 @@ export const UserSettingsDialog = ({
       if (email !== currentUser.email) {
         promises.push(updateEmail(email, currentUser.id));
       }
+      setSuccess('更新に成功しました');
       await Promise.all(promises);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      setError(error);
     }
   };
 
