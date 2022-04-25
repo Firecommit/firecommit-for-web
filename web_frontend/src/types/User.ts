@@ -12,4 +12,7 @@ export type User = {
   layer: {
     [key: number]: boolean; // layer: isCurrentLayer
   };
+  name?: string;
+  photoURL?: string;
+  email?: string;
 };
