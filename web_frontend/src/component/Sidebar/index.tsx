@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Divider, Drawer, List } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { useGetMapServer } from '../../hooks/useMapServer';
 import { SidebarListItem, SidebarListItemProps } from './SidebarListItem';
 import { MapServerName } from './MapServerName';
 import { MapServerIdDialog } from '../MapServerIdDialog';
+import { UserSettingsDialog } from '../UserSettingsDialog';
 
 export type SidebarProps = {
   open: boolean;
@@ -13,6 +15,8 @@ export type SidebarProps = {
 export const Sidebar = ({ open, wid }: SidebarProps) => {
   const [openMapServerIdDialog, setOpenMapServerIdDialog] = useState(false);
   const handleCLoseMapServerIdDialog = () => setOpenMapServerIdDialog(false);
+  const [openUserSettingsDialog, setOpenUserSettingsDialog] = useState(false);
+  const handleCloseUserSettingsDialog = () => setOpenUserSettingsDialog(false);
   const mapServer = useGetMapServer(wid);
   const list: Array<SidebarListItemProps> = [
     {
@@ -20,6 +24,13 @@ export const Sidebar = ({ open, wid }: SidebarProps) => {
       icon: <PersonAddIcon />,
       onClick() {
         setOpenMapServerIdDialog(true);
+      },
+    },
+    {
+      title: 'ユーザ設定',
+      icon: <SettingsIcon />,
+      onClick() {
+        setOpenUserSettingsDialog(true);
       },
     },
   ];
@@ -48,6 +59,10 @@ export const Sidebar = ({ open, wid }: SidebarProps) => {
         wid={wid}
         open={openMapServerIdDialog}
         onClose={handleCLoseMapServerIdDialog}
+      />
+      <UserSettingsDialog
+        open={openUserSettingsDialog}
+        onClose={handleCloseUserSettingsDialog}
       />
     </Drawer>
   );
