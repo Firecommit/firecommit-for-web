@@ -2,13 +2,18 @@ import React, { ChangeEvent } from 'react';
 import { Avatar, Divider, Grid, Typography } from '@mui/material';
 
 export type UploadUserIconProps = {
+  label: string;
   iconUrl: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
-export const UploadUserIcon = ({ iconUrl, onChange }: UploadUserIconProps) => (
+export const UploadIcon = ({
+  label,
+  iconUrl,
+  onChange,
+}: UploadUserIconProps) => (
   <Grid container flexDirection="column" alignItems="flex-start" gap={1}>
     <Divider flexItem />
-    <Typography>ユーザアイコン</Typography>
+    <Typography>{label}</Typography>
     <input
       type="file"
       accept="image/*"

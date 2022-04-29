@@ -14,7 +14,7 @@ import { ChangePasswordDialog } from './ChangePasswordDialog';
 import { DialogTextField } from './DialogTextField';
 import { updateEmail, updateUserName, uploadIcon } from './api';
 import { NotificationDispatchContext } from '../NotificationProvider';
-import { UploadUserIcon } from './UploadUserIcon';
+import { UploadIcon } from '../UploadIcon';
 
 export type UserSettingsDialogProps = {
   open: boolean;
@@ -85,7 +85,8 @@ export const UserSettingsDialog = ({
         <DialogContent
           sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
-          <UploadUserIcon
+          <UploadIcon
+            label="ユーザアイコン"
             iconUrl={iconFile ? URL.createObjectURL(iconFile) : iconUrl ?? ''}
             onChange={handleChangeIcon}
           />
