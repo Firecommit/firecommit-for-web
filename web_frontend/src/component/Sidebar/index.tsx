@@ -55,6 +55,7 @@ export const Sidebar = ({ open, wid }: SidebarProps) => {
       sx={{
         '& .MuiDrawer-paper': {
           boxShadow: '-1px 0px 3px',
+          width: '360px',
         },
       }}
     >
