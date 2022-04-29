@@ -12,8 +12,9 @@ import {
 import { useCurrentUser } from '../../hooks/useUserList';
 import { ChangePasswordDialog } from './ChangePasswordDialog';
 import { DialogTextField } from './DialogTextField';
-import { updateEmail, updateUserName } from './api';
+import { updateEmail, updateUserName, uploadIcon } from './api';
 import { NotificationDispatchContext } from '../NotificationProvider';
+import { UploadUserIcon } from './UploadUserIcon';
 
 export type UserSettingsDialogProps = {
   open: boolean;
@@ -42,11 +43,19 @@ export const UserSettingsDialog = ({
   const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
+  const [iconUrl, setIconUrl] = useState(currentUser?.photoURL);
+  const [iconFile, setIconFile] = useState<File>();
+  const handleChangeIcon = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files === null) return;
+    if (e.target.files.length === 0) return;
+    setIconFile(e.target.files[0]);
+  };
 
   useEffect(() => {
     if (currentUser === undefined) return;
     setUserName(currentUser.name ?? '');
     setEmail(currentUser.email ?? '');
+    setIconUrl(currentUser?.photoURL ?? '');
   }, [currentUser]);
 
   const handleClickUpdate = async () => {
@@ -58,6 +67,9 @@ export const UserSettingsDialog = ({
       }
       if (email !== currentUser.email) {
         promises.push(updateEmail(email, currentUser.id));
+      }
+      if (iconFile) {
+        promises.push(uploadIcon(iconFile, currentUser.id));
       }
       setSuccess('更新に成功しました');
       await Promise.all(promises);
@@ -73,6 +85,10 @@ export const UserSettingsDialog = ({
         <DialogContent
           sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
+          <UploadUserIcon
+            iconUrl={iconFile ? URL.createObjectURL(iconFile) : iconUrl ?? ''}
+            onChange={handleChangeIcon}
+          />
           <DialogTextField
             label="ユーザ名"
             textFieldLabel="名前"
