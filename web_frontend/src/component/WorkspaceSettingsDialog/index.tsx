@@ -10,6 +10,8 @@ import { DialogTextField } from '../UserSettingsDialog/DialogTextField';
 import { updateWorkspaceName } from './api/workspaceName';
 import { useGetMapServer } from '../../hooks/useMapServer';
 import { NotificationDispatchContext } from '../NotificationProvider';
+import { UploadIcon } from '../UploadIcon';
+import { uploadIcon } from './api/uploadIcon';
 
 export type WorkspaceSettingsDialogProps = {
   wid: string;
@@ -31,6 +33,12 @@ export const WorkspaceSettingsDialog = ({
   const [workspaceName, setWorkspaceName] = useState('');
   const handleChangeWorkspaceName = (e: ChangeEvent<HTMLInputElement>) =>
     setWorkspaceName(e.target.value);
+  const [workspaceIcon, setWorkspaceIcon] = useState<File>();
+  const handleChangeIcon = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files === null) return;
+    if (e.target.files.length === 0) return;
+    setWorkspaceIcon(e.target.files[0]);
+  };
 
   useEffect(() => {
     if (workspace === undefined) return;
@@ -43,6 +51,9 @@ export const WorkspaceSettingsDialog = ({
       if (workspaceName !== workspace.name) {
         updateWorkspaceName(workspaceName, wid);
       }
+      if (workspaceIcon !== undefined) {
+        uploadIcon(workspaceIcon, wid);
+      }
       setSuccess('更新に成功しました');
     } catch (error: any) {
       setError(error);
@@ -53,6 +64,15 @@ export const WorkspaceSettingsDialog = ({
     <Dialog fullWidth open={open} onClose={onClose}>
       <DialogTitle>ワークスペース設定</DialogTitle>
       <DialogContent>
+        <UploadIcon
+          label="ワークスペースアイコン"
+          iconUrl={
+            workspaceIcon
+              ? URL.createObjectURL(workspaceIcon)
+              : workspace?.iconURL ?? ''
+          }
+          onChange={handleChangeIcon}
+        />
         <DialogTextField
           label="ワークスペース名"
           textFieldLabel="ワークスペース名"
